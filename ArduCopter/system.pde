@@ -193,6 +193,11 @@ static void init_ardupilot()
     }
 #endif
 
+#if CONFIG_HAL_BOARD == HAL_BOARD_PX4
+    // UART 5 on Pixhawk
+    hal.uartE->begin(57600, 128, 128);
+#endif
+
     // identify ourselves correctly with the ground station
     mavlink_system.sysid = g.sysid_this_mav;
     mavlink_system.type = 2; //MAV_QUADROTOR;
