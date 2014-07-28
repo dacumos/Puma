@@ -1,10 +1,16 @@
 /// -*- tab-width: 4; Mode: C++; c-basic-offset: 4; indent-tabs-mode: nil -*-
 
+#include <AP_HAL.h>
+
+#include "Buzzer.h"
+#include "AP_Notify.h"
+
 #ifdef USERHOOK_INIT
 void userhook_init()
 {
     // put your initialisation code here
     // this will be called once at start-up
+    buzzer.init();
 }
 #endif
 
@@ -40,5 +46,6 @@ void userhook_SlowLoop()
 void userhook_SuperSlowLoop()
 {
     // put your 1Hz code here
+    buzzer.on(true);
 }
 #endif

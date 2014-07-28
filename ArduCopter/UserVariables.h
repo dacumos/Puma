@@ -6,6 +6,13 @@
 // variables
 #ifdef USERHOOK_VARIABLES
 
+#include <AP_HAL.h>
+
+#include "Buzzer.h"
+#include "AP_Notify.h"
+
+Buzzer buzzer;
+
 #if WII_CAMERA == 1
 WiiCamera           ircam;
 int                 WiiRange=0;
