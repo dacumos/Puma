@@ -7,6 +7,7 @@
 #if HIL_MODE != HIL_MODE_ATTITUDE && HIL_MODE != HIL_MODE_SENSORS
 static int8_t   test_baro(uint8_t argc,                 const Menu::arg *argv);
 #endif
+static int8_t   test_uart(uint8_t argc,                 const Menu::arg *argv);
 static int8_t   test_compass(uint8_t argc,              const Menu::arg *argv);
 static int8_t   test_gps(uint8_t argc,                  const Menu::arg *argv);
 static int8_t   test_ins(uint8_t argc,                  const Menu::arg *argv);
@@ -32,6 +33,7 @@ const struct Menu::command test_menu_commands[] PROGMEM = {
 #if HIL_MODE != HIL_MODE_ATTITUDE && HIL_MODE != HIL_MODE_SENSORS
     {"baro",                test_baro},
 #endif
+    {"uart",                test_uart},
     {"compass",             test_compass},
     {"gps",                 test_gps},
     {"ins",                 test_ins},
@@ -87,6 +89,27 @@ test_baro(uint8_t argc, const Menu::arg *argv)
     return 0;
 }
 #endif
+
+static int8_t
+test_uart(uint8_t argc, const Menu::arg *argv)
+{
+    print_hit_enter();
+
+    while(1) {
+        delay(100);
+        alt = read_barometer();
+
+        if (!barometer.healthy) {
+            cliSerial->println_P(PSTR("not healthy"));
+        } else {
+            cliSerial->printf_P(PSTR("UART Data: "));
+        }
+        if(cliSerial->available() > 0) {
+            return (0);
+        }
+    }
+    return 0;
+}
 
 static int8_t
 test_compass(uint8_t argc, const Menu::arg *argv)
