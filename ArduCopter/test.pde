@@ -97,7 +97,6 @@ test_uart(uint8_t argc, const Menu::arg *argv)
 
     while(1) {
         delay(100);
-        alt = read_barometer();
 
         if (!barometer.healthy) {
             cliSerial->println_P(PSTR("not healthy"));
