@@ -93,17 +93,23 @@ test_baro(uint8_t argc, const Menu::arg *argv)
 static int8_t
 test_uart(uint8_t argc, const Menu::arg *argv)
 {
-    print_hit_enter();
+
+    //hal.uartE->begin(57600,28,28);
+    bool _initialized = hal.uartE->is_initialized();
 
     while(1) {
         delay(100);
-
-        if (!barometer.healthy) {
-            cliSerial->println_P(PSTR("not healthy"));
-        } else {
-            cliSerial->printf_P(PSTR("UART Data: "));
+        
+        if (_initialized == 1){
+            cliSerial->println_P(PSTR("UART E initialized!"));
         }
-        print_hit_enter();
+
+        if (_initialized == 0) {
+            cliSerial->println_P(PSTR("UART E not initialized"));
+        } else {
+            cliSerial->printf_P(PSTR("UART Data: %i\n"),hal.uartE->read());
+        }
+
         if(cliSerial->available() > 0) {
             return (0);
         }
