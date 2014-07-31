@@ -103,6 +103,7 @@ test_uart(uint8_t argc, const Menu::arg *argv)
         } else {
             cliSerial->printf_P(PSTR("UART Data: "));
         }
+        print_hit_enter();
         if(cliSerial->available() > 0) {
             return (0);
         }
