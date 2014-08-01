@@ -240,10 +240,10 @@ int16_t PX4UARTDriver::read()
         return -1;
     }
 	if (_readbuf == NULL) {
-		return -1;
+		return -2;          //Changed from -1 to -2
 	}
     if (BUF_EMPTY(_readbuf)) {
-        return -1;
+        return -3;          //Changed from -1 to -3
     }
     c = _readbuf[_readbuf_head];
     BUF_ADVANCEHEAD(_readbuf, 1);
