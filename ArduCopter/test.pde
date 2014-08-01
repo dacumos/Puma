@@ -94,7 +94,7 @@ static int8_t
 test_uart(uint8_t argc, const Menu::arg *argv)
 {
 
-    //hal.uartE->begin(57600,28,28);
+    hal.uartE->begin(57600,128,128);
     bool _initialized = hal.uartE->is_initialized();
 
     while(1) {
