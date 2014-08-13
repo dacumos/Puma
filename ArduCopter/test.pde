@@ -99,10 +99,6 @@ test_uart(uint8_t argc, const Menu::arg *argv)
 
     while(1) {
         delay(100);
-        
-        if (_initialized == 1){
-            cliSerial->println_P(PSTR("UART E initialized!"));
-        }
 
         if (_initialized == 0) {
             cliSerial->println_P(PSTR("UART E not initialized"));
