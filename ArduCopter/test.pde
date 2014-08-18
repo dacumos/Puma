@@ -7,7 +7,7 @@
 #if HIL_MODE != HIL_MODE_ATTITUDE && HIL_MODE != HIL_MODE_SENSORS
 static int8_t   test_baro(uint8_t argc,                 const Menu::arg *argv);
 #endif
-static int8_t   test_uart(uint8_t argc,                 const Menu::arg *argv);
+static int8_t   test_laser(uint8_t argc,                 const Menu::arg *argv);
 static int8_t   test_compass(uint8_t argc,              const Menu::arg *argv);
 static int8_t   test_gps(uint8_t argc,                  const Menu::arg *argv);
 static int8_t   test_ins(uint8_t argc,                  const Menu::arg *argv);
@@ -33,7 +33,7 @@ const struct Menu::command test_menu_commands[] PROGMEM = {
 #if HIL_MODE != HIL_MODE_ATTITUDE && HIL_MODE != HIL_MODE_SENSORS
     {"baro",                test_baro},
 #endif
-    {"uart",                test_uart},
+    {"laser",               test_laser},
     {"compass",             test_compass},
     {"gps",                 test_gps},
     {"ins",                 test_ins},
@@ -91,11 +91,16 @@ test_baro(uint8_t argc, const Menu::arg *argv)
 #endif
 
 static int8_t
-test_uart(uint8_t argc, const Menu::arg *argv)
+test_laser(uint8_t argc, const Menu::arg *argv)
 {
 
-    hal.uartE->begin(57600,128,128);
+    hal.uartE->begin(115200,128,128);
     bool _initialized = hal.uartE->is_initialized();
+
+    hal.uartE->write('D');
+    hal.uartE->write('T');
+    hal.uartE->write(13);
+    delay(2000);
 
     while(1) {
         delay(100);
