@@ -7,7 +7,7 @@
 #if HIL_MODE != HIL_MODE_ATTITUDE && HIL_MODE != HIL_MODE_SENSORS
 static int8_t   test_baro(uint8_t argc,                 const Menu::arg *argv);
 #endif
-static int8_t   test_laser(uint8_t argc,                 const Menu::arg *argv);
+static int8_t   test_laser(uint8_t argc,                const Menu::arg *argv);
 static int8_t   test_compass(uint8_t argc,              const Menu::arg *argv);
 static int8_t   test_gps(uint8_t argc,                  const Menu::arg *argv);
 static int8_t   test_ins(uint8_t argc,                  const Menu::arg *argv);
@@ -90,13 +90,79 @@ test_baro(uint8_t argc, const Menu::arg *argv)
 }
 #endif
 
+char dec2ascii(uint8_t dec){
+    char ascii;
+    switch(dec){
+        case 48: 
+            ascii = '0';
+            break;
+        case 49: 
+            ascii = '1';
+            break;
+        case 50: 
+            ascii = '2';
+            break;
+        case 51: 
+            ascii = '3';
+            break;
+        case 52: 
+            ascii = '4';
+            break;
+        case 53: 
+            ascii = '5';
+            break;
+        case 54: 
+            ascii = '6';
+            break;
+        case 55: 
+            ascii = '7';
+            break;
+        case 56: 
+            ascii = '8';
+            break;
+        case 57: 
+            ascii = '9';
+            break;
+        case 13: 
+            ascii = '\r';
+            break;
+        case 10: 
+            ascii = '\n';
+            break;
+        case 32:
+            ascii = ' ';
+            break;
+        case 68:
+            ascii = 'D';
+        default:
+            ascii = '?';
+    }
+    return ascii;
+}
+
 static int8_t
 test_laser(uint8_t argc, const Menu::arg *argv)
 {
+    uint8_t dec;
+    char ascii;
 
-    hal.uartE->begin(115200,128,128);
+    hal.uartE->begin(57600,128,128);
     bool _initialized = hal.uartE->is_initialized();
-
+    
+    hal.uartE->write(27);
+    delay(1000);   
+    
+    /*
+    hal.uartE->write('B');
+    hal.uartE->write('R');
+    hal.uartE->write('5');
+    hal.uartE->write('7');
+    hal.uartE->write('6');
+    hal.uartE->write('0');
+    hal.uartE->write('0');
+    delay(1000);
+    */
+    
     hal.uartE->write('D');
     hal.uartE->write('T');
     hal.uartE->write(13);
@@ -108,7 +174,9 @@ test_laser(uint8_t argc, const Menu::arg *argv)
         if (_initialized == 0) {
             cliSerial->println_P(PSTR("UART E not initialized"));
         } else {
-            cliSerial->printf_P(PSTR("UART Data: %i\n"),hal.uartE->read());
+            //dec = hal.uartE->read();
+            //ascii = dec2ascii(dec);
+            cliSerial->printf_P(PSTR("%c"),hal.uartE->read());
         }
 
         if(cliSerial->available() > 0) {
